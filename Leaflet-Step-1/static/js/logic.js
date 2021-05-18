@@ -1,10 +1,8 @@
-// Store API endpoint as queryUrl
+// Store our API endpoint as queryUrl
+let queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
 
-let queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
 
-// Perform a GET request to the query URL
-
-d3.json(queryUrl).then(function(data){
+d3.json(queryUrl).then(function(data) {
     createFeatures(data.features);
 });
 
@@ -61,21 +59,22 @@ let createMap = (earthquakes) => {
     };
 
     //Create the map giving the layers to display
+    let myMap = L.map("map", {
+        center: [37.09, -95.71],
+        zoom: 5,
+        layers: [satellite, earthquakes]
 
-    let myMap = L.map("mapid", {
-        center: [36.204824, -138.252924],
-        zoom:10,
-        layers: [satellite, light, outdoors]
     });
+    
     // Create a layer control
     // Pass in our baseMaps and overlayMaps
     // Add the layer control to the map
 
-    L.control.layers(baseMaps, overlayMaps, {
-        collapsed:false
-    }).addTo(myMap);
+    L.control.layers(baseMaps, overlayMaps).addTo(myMap);
+    console.log(overlayMaps);
 
-}
+};
+
 
 
 
