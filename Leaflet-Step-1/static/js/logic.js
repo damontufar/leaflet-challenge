@@ -6,14 +6,13 @@ let queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/signif
 
 d3.json(queryUrl).then(function(data){
     createFeatures(data.features);
-})
+});
 
 //Create GeoJSON layer and add it to the map
 
-
 let createFeatures = earthquakesData => {
     let onEachFeature = (feature, layer) => {
-        layer.bindPopUp(`<h3> ${feature.properties.place} </h3><hr><p>${new Date(feature.properties.time)}</p>`)
+        layer.bindPopup(`<h3> ${feature.properties.place} </h3><hr><p>${new Date(feature.properties.time)}</p>`)
     }
     let earthquakes = L.geoJSON(earthquakesData, {
         onEachFeature: onEachFeature
@@ -29,14 +28,14 @@ let createMap = (earthquakes) => {
         tileSize: 512,
         maxZoom: 18,
         zoomOffset: -1,
-        id: "mapbox://styles/mapbox/satellite-v9",
+        id: "mapbox/satellite-v9",
         accessToken: API_KEY
     });
 
     let light =  L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
-        id: "mapbox://styles/mapbox/light-v10",
+        id: "light-v10",
         accessToken: API_KEY
     });
 
@@ -45,7 +44,7 @@ let createMap = (earthquakes) => {
         tileSize: 512,
         maxZoom: 18,
         zoomOffset: -1,
-        id: "mapbox://styles/mapbox/outdoors-v11",
+        id: "mapbox/outdoors-v11",
         accessToken: API_KEY
     });
 
@@ -64,7 +63,7 @@ let createMap = (earthquakes) => {
     //Create the map giving the layers to display
 
     let myMap = L.map("mapid", {
-        center: [36.204824, 138.252924],
+        center: [36.204824, -138.252924],
         zoom:10,
         layers: [satellite, light, outdoors]
     });
@@ -77,5 +76,8 @@ let createMap = (earthquakes) => {
     }).addTo(myMap);
 
 }
+
+
+
 
 
