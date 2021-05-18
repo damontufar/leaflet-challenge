@@ -60,8 +60,8 @@ let createMap = (earthquakes) => {
 
     //Create the map giving the layers to display
     let myMap = L.map("map", {
-        center: [37.09, -95.71],
-        zoom: 5,
+        center: [33.274776, -31.875771],
+        zoom: 3.4,
         layers: [satellite, earthquakes]
 
     });
