@@ -1,6 +1,9 @@
 // Store our API endpoint as queryUrl
-let queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
+let queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
 
+function chooseColor(depth) {
+
+}
 
 d3.json(queryUrl).then(function(data) {
     createFeatures(data.features);
@@ -11,15 +14,19 @@ d3.json(queryUrl).then(function(data) {
 let createFeatures = earthquakesData => {
     
     let onEachFeature = (feature, layer) => {
-        layer.bindPopup(`<h3> ${feature.properties.place} </h3><hr><p>${new Date(feature.properties.time)}</p>`)
+        layer.bindPopup(`<h3> ${feature.properties.place} </h3><hr><p>${new Date(feature.properties.time)}</p><hr><p>${feature.properties.mag}`)
     }
-    console.log(earthquakesData);
+
     let earthquakes = L.geoJSON(earthquakesData, {
         pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, {
-                fillOpacity: 0.75,
+            let geojsonMarkerOptions = {
+                stroke: false,
                 color: "black",
-            })
+                fillOpacity:0.75,
+                fillColor: "white",
+                radius: feature.properties.mag*2.5
+            };
+            return L.circleMarker(latlng, geojsonMarkerOptions);
         },
         onEachFeature : onEachFeature
     });
