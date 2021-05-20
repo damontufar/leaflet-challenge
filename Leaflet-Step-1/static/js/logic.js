@@ -14,7 +14,18 @@ d3.json(queryUrl).then(function(data) {
 let createFeatures = earthquakesData => {
     
     let onEachFeature = (feature, layer) => {
-        layer.bindPopup(`<h3> ${feature.properties.place} </h3><hr><p>${new Date(feature.properties.time)}</p><hr><p>${feature.properties.mag}`)
+        layer.bindPopup(`<h3> ${feature.properties.place} </h3><hr><p>${new Date(feature.properties.time)}</p><hr><p>Magnitude: ${feature.properties.mag}<br> Depth: ${feature.geometry.coordinates[2]}`)
+    }
+
+    function chooseColor(depth) {
+        switch (depth) {
+        case 10:
+            return "green";
+        case 90:
+            return "red";
+        default:
+            return "white";
+        };
     }
 
     let earthquakes = L.geoJSON(earthquakesData, {
@@ -23,7 +34,7 @@ let createFeatures = earthquakesData => {
                 stroke: false,
                 color: "black",
                 fillOpacity:0.75,
-                fillColor: "white",
+                fillColor: chooseColor(feature.geometry.coordinates[2]),
                 radius: feature.properties.mag*2.5
             };
             return L.circleMarker(latlng, geojsonMarkerOptions);
