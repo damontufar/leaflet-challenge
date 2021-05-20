@@ -16,16 +16,24 @@ let createFeatures = earthquakesData => {
     let onEachFeature = (feature, layer) => {
         layer.bindPopup(`<h3> ${feature.properties.place} </h3><hr><p>${new Date(feature.properties.time)}</p><hr><p>Magnitude: ${feature.properties.mag}<br> Depth: ${feature.geometry.coordinates[2]}`)
     }
-
+    //Function to define color of circles by depth value
     function chooseColor(depth) {
-        switch (depth) {
-        case 10:
+        switch (true) {
+        case (depth<=10):
             return "green";
-        case 90:
+        case (depth>10 && depth<30):
+            return "lightgreen";
+        case (depth>30 && depth<50):
+            return "yellow";
+        case (depth>50 && depth<70):
+            return "orange";
+        case (depth>70 && depth<90):
             return "red";
+        case (depth>90):
+            return "darkred";
         default:
             return "white";
-        };
+        }
     }
 
     let earthquakes = L.geoJSON(earthquakesData, {
