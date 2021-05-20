@@ -9,14 +9,22 @@ d3.json(queryUrl).then(function(data) {
 //Create GeoJSON layer and add it to the map
 
 let createFeatures = earthquakesData => {
+    
     let onEachFeature = (feature, layer) => {
         layer.bindPopup(`<h3> ${feature.properties.place} </h3><hr><p>${new Date(feature.properties.time)}</p>`)
     }
+    console.log(earthquakesData);
     let earthquakes = L.geoJSON(earthquakesData, {
-        onEachFeature: onEachFeature
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, {
+                fillOpacity: 0.75,
+                color: "black",
+            })
+        },
+        onEachFeature : onEachFeature
     });
-
     createMap(earthquakes);
+    
 }
 
 let createMap = (earthquakes) => {
@@ -71,7 +79,6 @@ let createMap = (earthquakes) => {
     // Add the layer control to the map
 
     L.control.layers(baseMaps, overlayMaps).addTo(myMap);
-    console.log(overlayMaps);
 
 };
 
